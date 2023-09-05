@@ -10,6 +10,9 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 x = 1100
 y = 960
+
+pygame.font.get_fonts()
+
 tela = pygame.display.set_mode((x, y))
 pygame.display.set_caption('image')
 image = pygame.image.load('img/fundo.jpg')
@@ -57,14 +60,35 @@ Restart = button.Button(475, 560, restart_img)
 UmJogador = button.Button(330, 400, UmJogador_img)
 DoisJogadores = button.Button(600, 400, DoisJogadores_img)
 Voltar = button.Button(10, 10, Voltar_img)
+pontosJ1 = 0
+pontosJ2 = 0
+
+
+def placar():
+    global pontosJ1
+    global pontosJ2
+
+    fonte = pygame.font.SysFont('javanesetext', 40, False, False)
+    mensagem1 = f'{pontosJ1}'
+    mensagem2 = f'{pontosJ2}'
+    texto1 = fonte.render(mensagem1, False, (white))
+    texto2 = fonte.render(mensagem2, False, (white))
+    tela.blit(texto1, (200, 200))
+    tela.blit(texto2, (870, 200))
 
 
 def menu():
     tela.fill(white)
     tela.blit(image, (0, 0))
     PlayButton.draw(tela)
+    Voltar.clicked = False
     UmJogador.clicked = False
     DoisJogadores.clicked = False
+    PlayButton.clicked = False
+    global pontosJ2
+    global pontosJ1
+    pontosJ1 = 0
+    pontosJ2 = 0
 
     while True:
 
@@ -88,8 +112,14 @@ def menu2():
     UmJogador.draw(tela)
     DoisJogadores.draw(tela)
     Voltar.draw(tela)
+    Voltar.clicked = False
     UmJogador.clicked = False
     DoisJogadores.clicked = False
+    PlayButton.clicked = False
+    global pontosJ2
+    global pontosJ1
+    pontosJ1 = 0
+    pontosJ2 = 0
 
     while True:
 
@@ -101,10 +131,17 @@ def menu2():
                     UmJogador.clicked = False
                 elif DoisJogadores.Click():
                     play()
+                    Voltar.clicked = False
+                    UmJogador.clicked = False
                     DoisJogadores.clicked = False
+                    PlayButton.clicked = False
                 elif Voltar.Click():
                     menu()
                     Voltar.clicked = False
+                    Voltar.clicked = False
+                    UmJogador.clicked = False
+                    DoisJogadores.clicked = False
+                    PlayButton.clicked = False
 
             if event.type == QUIT:
                 pygame.quit()
@@ -116,36 +153,46 @@ def menu2():
 def play():
     tela.fill(black)
     tela.blit(image, (0, 0))
-
     PapelButton.draw(tela)
     TesouraButton.draw(tela)
     LagartoButton.draw(tela)
     SpockButton.draw(tela)
     PedraButton.draw(tela)
     Voltar.draw(tela)
+    Voltar.clicked = False
+    UmJogador.clicked = False
+    DoisJogadores.clicked = False
+    PlayButton.clicked = False
 
     NumeroJogadas = 0
     JogadaUm = ""
     JogadaDois = ""
 
     def vencedor():
+        global pontosJ1
+        global pontosJ2
         if (JogadaUm == 'Pedra'):
             if (JogadaDois == 'Tesoura'):
                 vencedor1.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
+
             elif (JogadaDois == 'Papel'):
                 vencedor2.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor2.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor1.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Pedra'):
                 Empate.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
@@ -155,18 +202,22 @@ def play():
                 vencedor2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Tesoura'):
                 vencedor2.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Papel'):
                 Empate.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
@@ -180,18 +231,22 @@ def play():
                 vencedor2.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Papel'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
         elif (JogadaUm == 'Lagarto'):
             if (JogadaDois == 'Lagarto'):
                 Empate.draw(tela)
@@ -201,18 +256,22 @@ def play():
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Pedra'):
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Papel'):
                 vencedor1.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
         elif (JogadaUm == 'Spock'):
             if (JogadaDois == 'Spock'):
                 Empate.draw(tela)
@@ -222,19 +281,25 @@ def play():
                 vencedor2.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Papel'):
                 vencedor2.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Pedra'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Tesoura'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
-    Restart.draw(tela)
+                pontosJ1 = pontosJ1+1
+
+        Restart.draw(tela)
+        placar()
 
     while True:
 
@@ -307,10 +372,15 @@ def play():
                     Voltar.clicked = False
                     UmJogador.clicked = False
                     DoisJogadores.clicked = False
+                    PlayButton.clicked = False
 
                 elif Restart.Click():
                     play()
                     Restart.clicked = False
+                    Voltar.clicked = False
+                    UmJogador.clicked = False
+                    DoisJogadores.clicked = False
+                    PlayButton.clicked = False
 
             if event.type == QUIT:
                 pygame.quit()
@@ -330,6 +400,11 @@ def playBot():
     PedraButton.draw(tela)
     Voltar.draw(tela)
 
+    Voltar.clicked = False
+    UmJogador.clicked = False
+    DoisJogadores.clicked = False
+    PlayButton.clicked = False
+
     Lista = ['Papel', 'Pedra', 'Tesoura', 'Lagarto', 'Spock']
     Bot = random.choice(Lista)
 
@@ -338,23 +413,30 @@ def playBot():
     JogadaDois = ""
 
     def vencedor():
+        global pontosJ1
+        global pontosJ2
         if (JogadaUm == 'Pedra'):
             if (JogadaDois == 'Tesoura'):
                 vencedor1.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
+
             elif (JogadaDois == 'Papel'):
                 vencedor2.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor2.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor1.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Pedra'):
                 Empate.draw(tela)
                 PedraButtonVencedorP1.draw(tela)
@@ -364,18 +446,22 @@ def playBot():
                 vencedor2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Tesoura'):
                 vencedor2.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
                 PapelButtonVencedorP1.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Papel'):
                 Empate.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
@@ -389,18 +475,22 @@ def playBot():
                 vencedor2.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Papel'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Lagarto'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 TesouraButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
         elif (JogadaUm == 'Lagarto'):
             if (JogadaDois == 'Lagarto'):
                 Empate.draw(tela)
@@ -410,18 +500,22 @@ def playBot():
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Pedra'):
                 vencedor2.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Spock'):
                 vencedor1.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 SpockButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Papel'):
                 vencedor1.draw(tela)
                 LagartoButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
         elif (JogadaUm == 'Spock'):
             if (JogadaDois == 'Spock'):
                 Empate.draw(tela)
@@ -431,19 +525,25 @@ def playBot():
                 vencedor2.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 LagartoButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Papel'):
                 vencedor2.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 PapelButtonVencedorP2.draw(tela)
+                pontosJ2 = pontosJ2+1
             elif (JogadaDois == 'Pedra'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 PedraButtonVencedorP2.draw(tela)
+                pontosJ1 = pontosJ1+1
             elif (JogadaDois == 'Tesoura'):
                 vencedor1.draw(tela)
                 SpockButtonVencedorP1.draw(tela)
                 TesouraButtonVencedorP2.draw(tela)
-    Restart.draw(tela)
+                pontosJ1 = pontosJ1+1
+
+        Restart.draw(tela)
+        placar()
 
     while True:
 
