@@ -399,6 +399,7 @@ def playBot():
     SpockButton.draw(tela)
     PedraButton.draw(tela)
     Voltar.draw(tela)
+    CartaVirada.draw(tela)
 
     Voltar.clicked = False
     UmJogador.clicked = False
@@ -613,7 +614,7 @@ def playBot():
                         vencedor()
 
                 elif Voltar.Click():
-                    menu()
+                    menu2()
                     Voltar.clicked = False
                     UmJogador.clicked = False
                     DoisJogadores.clicked = False
